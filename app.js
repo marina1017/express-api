@@ -5,10 +5,13 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var helmet = require('helmet');
 
+//routes ディレクトリの中にある Router オブジェクトのモジュールをそれぞれ読み込む
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 var app = express();
+// app というオブジェクトの use 関数を使って helmet を使うように登録
+app.use(helmet());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
