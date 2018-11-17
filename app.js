@@ -8,6 +8,7 @@ var helmet = require('helmet');
 //routes ディレクトリの中にある Router オブジェクトのモジュールをそれぞれ読み込む
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var photosRouter = require('./routes/photos');
 
 var app = express();
 // app というオブジェクトの use 関数を使って helmet を使うように登録
@@ -27,6 +28,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // /users というパスにアクセスされた時は、 routes/users.js で記述した Router オブジェクトを利用するように、記述しています。
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/photos', photosRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
