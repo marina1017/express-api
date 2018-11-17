@@ -23,11 +23,14 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// / というパスにアクセスされた時は、routes/index.js で記述している Router オブジェクトを、
+// /users というパスにアクセスされた時は、 routes/users.js で記述した Router オブジェクトを利用するように、記述しています。
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
+  //存在しないパスへのアクセスがあった際の処理
   next(createError(404));
 });
 
@@ -35,6 +38,9 @@ app.use(function(req, res, next) {
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
+
+  //Application オブジェクトに登録された env という値が development である場合つまり開発環境の場合は、
+  //エラーのオブジェクトをテンプレートに渡し、そうではない本番環境におけるエラーの時は、スタックトレースを表示させるエラーオブジェクトはテンプレートに渡さない実装となっています。
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
   // render the error page
@@ -42,4 +48,5 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+//ここまでに設定した Application オブジェクトを、モジュールとして設定する記述です。
 module.exports = app;
